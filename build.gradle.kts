@@ -25,6 +25,9 @@ subprojects {
         plugin("org.springframework.boot")
         plugin("io.spring.dependency-management")
     }
+    dependencies {
+        implementation("org.jetbrains:annotations:26.0.0")
+    }
     java {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
