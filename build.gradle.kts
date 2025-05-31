@@ -25,7 +25,7 @@ subprojects {
         plugin("jacoco")
     }
     dependencies {
-        implementation("org.jetbrains:annotations")
+        implementation("org.jetbrains:annotations:26.0.0")
     }
     java {
         sourceCompatibility = JavaVersion.VERSION_21
@@ -46,4 +46,12 @@ subprojects {
 
     }
 
+}
+
+tasks.bootJar {
+    enabled = false
+}
+
+tasks.jar {
+    enabled = false
 }
