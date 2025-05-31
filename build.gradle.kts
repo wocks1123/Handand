@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.4.3"
     id("io.spring.dependency-management") version "1.1.7"
     id("io.freefair.lombok") version "8.4"
+    id("jacoco")
 }
 
 allprojects {
@@ -13,9 +14,6 @@ allprojects {
         mavenCentral()
     }
 
-    tasks.withType<Test> {
-        useJUnitPlatform()
-    }
 }
 
 subprojects {
@@ -24,6 +22,7 @@ subprojects {
         plugin("io.freefair.lombok")
         plugin("org.springframework.boot")
         plugin("io.spring.dependency-management")
+        plugin("jacoco")
     }
     dependencies {
         implementation("org.jetbrains:annotations:26.0.0")
@@ -32,4 +31,27 @@ subprojects {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
+
+    tasks.withType<JacocoReport> {
+        dependsOn(tasks.test)
+
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+        }
+
+    }
+
+}
+
+tasks.bootJar {
+    enabled = false
+}
+
+tasks.jar {
+    enabled = false
 }
