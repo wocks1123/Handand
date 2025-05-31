@@ -3,9 +3,6 @@ name: Java CI with Gradle
 permissions: write-all
 
 on:
-  push:
-    branches:
-      - 'dev'
   pull_request:
     branches:
       - 'main'
@@ -53,4 +50,4 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./jacoco-support/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+          files: ./jacoco-support/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
