@@ -4,6 +4,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
     id("io.freefair.lombok") version "8.4"
     id("jacoco")
+    id("jacoco-report-aggregation")
 }
 
 allprojects {
@@ -43,9 +44,22 @@ subprojects {
             xml.required.set(true)
             html.required.set(true)
         }
+    }
+}
 
+project(":jacoco-support") {
+    apply {
+        plugin("jacoco-report-aggregation")
     }
 
+    tasks.testCodeCoverageReport {
+        dependsOn(subprojects.map { it.tasks.test })
+
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+        }
+    }
 }
 
 tasks.bootJar {

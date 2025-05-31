@@ -3,9 +3,6 @@ name: Java CI with Gradle
 permissions: write-all
 
 on:
-  push:
-    branches:
-      - 'dev'
   pull_request:
     branches:
       - 'main'
@@ -39,7 +36,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean testCodeCoverageReport
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -53,4 +50,4 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./build/reports/jacoco/test/jacocoTestReport.xml
+          files: ./jacoco-support/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
