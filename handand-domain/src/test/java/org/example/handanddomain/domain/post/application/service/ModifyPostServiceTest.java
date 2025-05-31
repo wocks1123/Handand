@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ModifyPostServiceTest {
 
@@ -66,6 +67,22 @@ class ModifyPostServiceTest {
                 () -> assertThat(foundPost.getTitle()).isEqualTo(command.title()),
                 () -> assertThat(foundPost.getContent()).isEqualTo(command.content())
         );
+    }
+
+    @Test
+    @DisplayName("등록되지 않은 게시물을 수정하면 오류가 발생한다.")
+    void test02() {
+        // given
+        var command = new ModifyPostCommand(
+                999L,
+                dummyMember.getId(),
+                "Updated Title",
+                "Updated Content"
+        );
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            modifyPostService.modifyPost(command);
+        });
     }
 
 }

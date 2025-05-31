@@ -1,5 +1,6 @@
 package org.example.handanddomain.domain.member.domain;
 
+import lombok.Generated;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -33,6 +34,7 @@ public class Member {
 
 
     @Override
+    @Generated
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Member)) return false;
@@ -43,6 +45,7 @@ public class Member {
     }
 
     @Override
+    @Generated
     public int hashCode() {
         return Objects.hashCode(id);
     }

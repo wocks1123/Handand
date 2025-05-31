@@ -59,6 +59,46 @@ project(":jacoco-support") {
             xml.required.set(true)
             html.required.set(true)
         }
+
+
+//        classDirectories.map {
+//            fileTree(it).matching {
+//                exclude(
+//                    "**/com/example/jacoco/support/**",
+//                    "**/com/example/jacoco/support/**",
+//                    "**/com/example/jacoco/support/**",
+//                    "**/com/example/jacoco/support/**"
+//                )
+//            }
+//        }
+
+//        getClassDirectories().setFrom(
+//            subprojects.map {
+//                fileTree(it.sourceSets.main.get().output).matching {
+//                    exclude(
+//                        "org/example/handanddomain/domain/post/infra"
+//                    )
+//                }
+//            }
+//        )
+        classDirectories.setFrom(
+            files(
+                listOf(
+                    project(":handand-api"),
+                    project(":handand-domain")
+                ).map { subProject ->
+                    fileTree(subProject.layout.buildDirectory.dir("classes/java/main")) {
+                        exclude(
+                            "**/dto/**",
+                            "**/config/**",
+                            "**/output/**",
+                            "**/infra/**"
+                        )
+                    }
+                }
+            )
+        )
+
     }
 }
 
