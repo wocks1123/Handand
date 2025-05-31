@@ -28,6 +28,7 @@ public class RegisterPostService implements RegisterPostUseCase {
                 .member(member)
                 .title(command.title())
                 .content(command.content())
+                .status(command.status())
                 .build();
 
         Post savedPost = savePostPort.save(newPost);
