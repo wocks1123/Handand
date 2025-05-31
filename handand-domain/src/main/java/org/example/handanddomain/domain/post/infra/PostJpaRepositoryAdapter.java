@@ -1,6 +1,7 @@
 package org.example.handanddomain.domain.post.infra;
 
 import lombok.RequiredArgsConstructor;
+import org.example.handanddomain.domain.post.application.port.out.DeletePostPort;
 import org.example.handanddomain.domain.post.application.port.out.LoadPostPort;
 import org.example.handanddomain.domain.post.application.port.out.SavePostPort;
 import org.example.handanddomain.domain.post.application.port.out.UpdatePostPort;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-class PostJpaRepositoryAdapter implements SavePostPort, LoadPostPort, UpdatePostPort {
+class PostJpaRepositoryAdapter implements SavePostPort, LoadPostPort, UpdatePostPort, DeletePostPort {
 
     private final PostJpaRepository postJpaRepository;
 
@@ -34,4 +35,8 @@ class PostJpaRepositoryAdapter implements SavePostPort, LoadPostPort, UpdatePost
         // do nothing
     }
 
+    @Override
+    public void deleteById(@NotNull Long postId) {
+        postJpaRepository.deleteById(postId);
+    }
 }

@@ -15,33 +15,12 @@ public class Post {
 
     @Builder
     public Post(Member member, String title, String content, PostStatus status) {
-        if (member == null) {
-            throw new IllegalArgumentException("Member should not be null");
-        }
-        if (title == null || title.isEmpty()) {
-            throw new IllegalArgumentException("Title should not be null or empty");
-        }
-        if (content == null || content.isEmpty()) {
-            throw new IllegalArgumentException("Content should not be null or empty");
-        }
-
-        this.id = null;
-        this.member = member;
-        this.title = title;
-        this.content = content;
-        this.status = status;
+        this(null, member, title, content, status);
     }
 
+    @Builder
     public Post(Long id, Member member, String title, String content, PostStatus status) {
-        if (member == null) {
-            throw new IllegalArgumentException("Member should not be null");
-        }
-        if (title == null || title.isEmpty()) {
-            throw new IllegalArgumentException("Title should not be null or empty");
-        }
-        if (content == null || content.isEmpty()) {
-            throw new IllegalArgumentException("Content should not be null or empty");
-        }
+        validatePost(member, title, content);
 
         this.id = id;
         this.member = member;
@@ -50,18 +29,23 @@ public class Post {
         this.status = status;
     }
 
-    public void modify(Member member, String title, String content) {
+    private void validatePost(Member member, String title, String content) {
         if (member == null) {
             throw new IllegalArgumentException("Member should not be null");
-        }
-        if (!this.member.equals(member)) {
-            throw new IllegalArgumentException("Only the author can modify the post");
         }
         if (title == null || title.isEmpty()) {
             throw new IllegalArgumentException("Title should not be null or empty");
         }
         if (content == null || content.isEmpty()) {
             throw new IllegalArgumentException("Content should not be null or empty");
+        }
+    }
+
+    public void modify(Member member, String title, String content) {
+        validatePost(member, title, content);
+
+        if (!this.member.equals(member)) {
+            throw new IllegalArgumentException("Only the author can modify the post");
         }
 
         this.title = title;

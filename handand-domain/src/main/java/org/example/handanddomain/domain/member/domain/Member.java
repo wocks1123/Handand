@@ -2,6 +2,8 @@ package org.example.handanddomain.domain.member.domain;
 
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Getter
 public class Member {
 
@@ -27,6 +29,22 @@ public class Member {
         }
 
         this.profileImageUrl = profileImageUrl;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Member)) return false;
+
+        Member member = (Member) o;
+
+        return id != null && id.equals(member.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
 }
