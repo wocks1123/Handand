@@ -23,6 +23,12 @@ class MemberService implements RegisterMemberUseCase, ModifyMemberUseCase, GetMe
 
 
     @Override
+    public @NotNull Long registerMember(@NotNull RegisterMemberCommand command) {
+        Member member = new Member(null, command.name(), command.profileImageUrl());
+        return saveMemberPort.save(member).getId();
+    }
+
+    @Override
     public @NotNull Member getMember(@NotNull Long memberId) {
         return loadMemberPort.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. id: " + memberId));
@@ -42,12 +48,6 @@ class MemberService implements RegisterMemberUseCase, ModifyMemberUseCase, GetMe
         member.modifyProfileImageUrl(command.profileImageUrl());
 
         saveMemberPort.save(member);
-    }
-
-    @Override
-    public @NotNull Long registerMember(@NotNull RegisterMemberCommand command) {
-        Member member = new Member(null, command.name(), command.profileImageUrl());
-        return saveMemberPort.save(member).getId();
     }
 
 }

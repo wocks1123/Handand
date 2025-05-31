@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberJpaRepositoryAdapter implements SaveMemberPort, LoadMemberPort {
+class MemberJpaRepositoryAdapter implements SaveMemberPort, LoadMemberPort {
 
     private final MemberJpaRepository memberJpaRepository;
 
