@@ -92,7 +92,8 @@ project(":jacoco-support") {
                             "**/dto/**",
                             "**/config/**",
                             "**/output/**",
-                            "**/infra/**"
+                            "**/infra/**",
+                            "**/*Application.*"
                         )
                     }
                 }

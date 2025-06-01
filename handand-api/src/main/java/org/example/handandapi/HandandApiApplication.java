@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackageClasses = {HandandDomainConfiguration.class} )
+@ComponentScan(basePackageClasses = {HandandApiApplication.class, HandandDomainConfiguration.class})
 public class HandandApiApplication {
 
     public static void main(String[] args) {

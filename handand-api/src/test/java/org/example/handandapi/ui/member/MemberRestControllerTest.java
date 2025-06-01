@@ -67,8 +67,8 @@ class MemberRestControllerTest {
                     .andReturn();
 
             // then
-            final String content = result.getResponse().getContentAsString();
-            final JsonNode responseBody = objectMapper.readTree(content);
+            String content = result.getResponse().getContentAsString();
+            JsonNode responseBody = objectMapper.readTree(content);
             assertThat(responseBody.asLong()).isEqualTo(1L);
 
             verify(registerMemberUseCase).registerMember(command);
@@ -136,8 +136,8 @@ class MemberRestControllerTest {
                     .andReturn();
 
             // then
-            final String content = result.getResponse().getContentAsString();
-            final JsonNode responseBody = objectMapper.readTree(content);
+            String content = result.getResponse().getContentAsString();
+            JsonNode responseBody = objectMapper.readTree(content);
             assertAll(
                     () -> assertThat(responseBody.get("id").asLong()).isEqualTo(member.getId()),
                     () -> assertThat(responseBody.get("name").asText()).isEqualTo(member.getName()),
