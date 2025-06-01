@@ -1,6 +1,7 @@
 package org.example.handanddomain.domain.member.application.port.in;
 
 import org.example.handanddomain.domain.member.domain.Member;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class MemberUseCaseFactory {
             private final List<Member> members = List.of(givenMember);
 
             @Override
-            public Member getMember(Long memberId) {
+            public @NotNull Member getMember(@NotNull Long memberId) {
                 return members.stream()
                         .filter(member -> member.getId().equals(memberId))
                         .findFirst()
@@ -20,7 +21,7 @@ public class MemberUseCaseFactory {
             }
 
             @Override
-            public Member getMemberByName(String name) {
+            public @NotNull Member getMemberByName(@NotNull String name) {
                 return members.stream()
                         .filter(member -> member.getName().equals(name))
                         .findFirst()

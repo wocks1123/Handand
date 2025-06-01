@@ -6,7 +6,7 @@ import org.example.handanddomain.common.exception.ErrorCode;
 public class PostNotFoundException extends DomainException {
 
     public PostNotFoundException(Long postId) {
-        super(ErrorCode.POST_NOT_FOUND, "with id: " + postId);
+        super(ErrorCode.POST_NOT_FOUND, "with id(%s)".formatted(postId));
     }
 
 }

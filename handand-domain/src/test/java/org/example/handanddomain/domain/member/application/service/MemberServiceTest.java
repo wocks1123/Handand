@@ -1,8 +1,9 @@
 package org.example.handanddomain.domain.member.application.service;
 
+import org.example.handanddomain.common.exception.DomainIllegalArgumentException;
+import org.example.handanddomain.domain.member.application.exception.MemberNotFoundException;
 import org.example.handanddomain.domain.member.application.port.in.dto.ModifyMemberCommand;
 import org.example.handanddomain.domain.member.application.port.in.dto.RegisterMemberCommand;
-import org.example.handanddomain.domain.member.application.exception.MemberNotFoundException;
 import org.example.handanddomain.domain.member.domain.Member;
 import org.example.handanddomain.domain.member.infra.MemberFakeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,13 +74,10 @@ class MemberServiceTest {
         // given
         var command = new RegisterMemberCommand(nullableEmptyName, "image://TEST_IMAGE_URL");
 
-        // when
-        var exception = assertThrows(IllegalArgumentException.class, () -> {
+        // when & then
+        assertThrows(DomainIllegalArgumentException.class, () -> {
             memberService.registerMember(command);
         });
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo("이름은 비어있을 수 없습니다");
     }
 
     @Test

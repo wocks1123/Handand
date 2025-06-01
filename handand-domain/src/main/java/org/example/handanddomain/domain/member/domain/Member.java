@@ -2,6 +2,7 @@ package org.example.handanddomain.domain.member.domain;
 
 import lombok.Generated;
 import lombok.Getter;
+import org.example.handanddomain.common.exception.DomainIllegalArgumentException;
 
 import java.util.Objects;
 
@@ -16,7 +17,7 @@ public class Member {
 
     public Member(Long id, String name, String profileImageUrl) {
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("이름은 비어있을 수 없습니다");
+            throw new DomainIllegalArgumentException("이름은 비어있을 수 없습니다");
         }
 
         this.id = id;
