@@ -2,6 +2,7 @@ package org.example.handanddomain.domain.post.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.handanddomain.domain.member.application.port.in.GetMemberUseCase;
+import org.example.handanddomain.domain.post.application.exception.PostNotFoundException;
 import org.example.handanddomain.domain.post.application.port.in.ModifyPostUseCase;
 import org.example.handanddomain.domain.post.application.port.in.dto.ModifyPostCommand;
 import org.example.handanddomain.domain.post.application.port.out.LoadPostPort;
@@ -23,7 +24,7 @@ public class ModifyPostService implements ModifyPostUseCase {
     @Override
     public void modifyPost(@NotNull ModifyPostCommand command) {
         Post post = loadPostPort.findById(command.postId())
-                .orElseThrow(() -> new IllegalArgumentException("Post not found with ID: " + command.postId()));
+                .orElseThrow(() -> new PostNotFoundException(command.postId()));
 
         post.modify(
                 getMemberUseCase.getMember(command.memberId()),

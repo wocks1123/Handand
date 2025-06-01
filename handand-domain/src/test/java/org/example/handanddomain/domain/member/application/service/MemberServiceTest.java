@@ -1,5 +1,7 @@
 package org.example.handanddomain.domain.member.application.service;
 
+import org.example.handanddomain.common.exception.DomainIllegalArgumentException;
+import org.example.handanddomain.domain.member.application.exception.MemberNotFoundException;
 import org.example.handanddomain.domain.member.application.port.in.dto.ModifyMemberCommand;
 import org.example.handanddomain.domain.member.application.port.in.dto.RegisterMemberCommand;
 import org.example.handanddomain.domain.member.domain.Member;
@@ -72,13 +74,10 @@ class MemberServiceTest {
         // given
         var command = new RegisterMemberCommand(nullableEmptyName, "image://TEST_IMAGE_URL");
 
-        // when
-        var exception = assertThrows(IllegalArgumentException.class, () -> {
+        // when & then
+        assertThrows(DomainIllegalArgumentException.class, () -> {
             memberService.registerMember(command);
         });
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo("이름은 비어있을 수 없습니다");
     }
 
     @Test
@@ -106,13 +105,10 @@ class MemberServiceTest {
         // given
         var nonExistentMemberId = 999L;
 
-        // when
-        var exception = assertThrows(IllegalArgumentException.class, () -> {
+        // when & then
+        assertThrows(MemberNotFoundException.class, () -> {
             memberService.getMember(nonExistentMemberId);
         });
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo("회원을 찾을 수 없습니다. id: " + nonExistentMemberId);
     }
 
     @Test
@@ -139,13 +135,10 @@ class MemberServiceTest {
         // given
         var nonExistentName = "NON_EXISTENT_NAME";
 
-        // when
-        var exception = assertThrows(IllegalArgumentException.class, () -> {
+        // when & then
+        assertThrows(MemberNotFoundException.class, () -> {
             memberService.getMemberByName(nonExistentName);
         });
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo("회원을 찾을 수 없습니다. name:" + nonExistentName);
     }
 
     @Test
@@ -195,13 +188,10 @@ class MemberServiceTest {
         var nonExistentMemberId = 999L;
         var modifyCommand = new ModifyMemberCommand(nonExistentMemberId, "image://MODIFIED_TEST_IMAGE_URL");
 
-        // when
-        var exception = assertThrows(IllegalArgumentException.class, () -> {
+        // when & then
+        assertThrows(MemberNotFoundException.class, () -> {
             memberService.modifyMember(modifyCommand);
         });
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo("회원을 찾을 수 없습니다. id: " + nonExistentMemberId);
     }
 
 }

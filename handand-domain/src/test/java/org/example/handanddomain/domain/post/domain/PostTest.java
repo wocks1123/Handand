@@ -1,6 +1,8 @@
 package org.example.handanddomain.domain.post.domain;
 
+import org.example.handanddomain.common.exception.DomainIllegalArgumentException;
 import org.example.handanddomain.domain.member.domain.Member;
+import org.example.handanddomain.domain.post.application.exception.PostOwnershipException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -35,7 +37,7 @@ class PostTest {
         Member givenMember = null;
 
         // then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(DomainIllegalArgumentException.class, () -> {
             new Post(1L, givenMember, "제목", "내용", PostStatus.PUBLIC);
         });
     }
@@ -45,7 +47,7 @@ class PostTest {
     @DisplayName("게시물 제목이 비어있으면 오류가 발생한다.")
     void test03(String title) {
         // then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(DomainIllegalArgumentException.class, () -> {
             new Post(1L, dummyMember, title, "내용", PostStatus.PUBLIC);
         });
     }
@@ -55,7 +57,7 @@ class PostTest {
     @DisplayName("게시물 내용이 비어있으면 오류가 발생한다.")
     void test04(String content) {
         // then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(DomainIllegalArgumentException.class, () -> {
             new Post(1L, dummyMember, "제목", content, PostStatus.PUBLIC);
         });
     }
@@ -88,7 +90,7 @@ class PostTest {
         String newContent = "새 내용";
 
         // then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(PostOwnershipException.class, () -> {
             post.modify(otherMember, newTitle, newContent);
         });
     }
@@ -101,7 +103,7 @@ class PostTest {
         Post post = new Post(1L, dummyMember, "제목", "내용", PostStatus.PUBLIC);
 
         // then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(DomainIllegalArgumentException.class, () -> {
             post.modify(dummyMember, title, "새 내용");
         });
     }
@@ -114,7 +116,7 @@ class PostTest {
         Post post = new Post(1L, dummyMember, "제목", "내용", PostStatus.PUBLIC);
 
         // then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(DomainIllegalArgumentException.class, () -> {
             post.modify(dummyMember, "새 제목", content);
         });
     }
