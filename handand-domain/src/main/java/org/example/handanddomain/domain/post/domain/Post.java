@@ -2,7 +2,9 @@ package org.example.handanddomain.domain.post.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.example.handanddomain.common.exception.DomainIllegalArgumentException;
 import org.example.handanddomain.domain.member.domain.Member;
+import org.example.handanddomain.domain.post.application.exception.PostOwnershipException;
 
 @Getter
 public class Post {
@@ -31,13 +33,13 @@ public class Post {
 
     private void validatePost(Member member, String title, String content) {
         if (member == null) {
-            throw new IllegalArgumentException("Member should not be null");
+            throw new DomainIllegalArgumentException("회원을 지정해야 합니다.");
         }
         if (title == null || title.isEmpty()) {
-            throw new IllegalArgumentException("Title should not be null or empty");
+            throw new DomainIllegalArgumentException("제목을 입력해야 합니다.");
         }
         if (content == null || content.isEmpty()) {
-            throw new IllegalArgumentException("Content should not be null or empty");
+            throw new DomainIllegalArgumentException("내용을 입력해야 합니다.");
         }
     }
 
@@ -45,7 +47,7 @@ public class Post {
         validatePost(member, title, content);
 
         if (!this.member.equals(member)) {
-            throw new IllegalArgumentException("Only the author can modify the post");
+            throw new PostOwnershipException();
         }
 
         this.title = title;

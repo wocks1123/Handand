@@ -3,6 +3,8 @@ package org.example.handanddomain.domain.post.application.service;
 import lombok.RequiredArgsConstructor;
 import org.example.handanddomain.domain.member.application.port.in.GetMemberUseCase;
 import org.example.handanddomain.domain.member.domain.Member;
+import org.example.handanddomain.domain.post.application.exception.PostNotFoundException;
+import org.example.handanddomain.domain.post.application.exception.PostOwnershipException;
 import org.example.handanddomain.domain.post.application.port.in.RemovePostUseCase;
 import org.example.handanddomain.domain.post.application.port.in.dto.RemovePostCommand;
 import org.example.handanddomain.domain.post.application.port.out.DeletePostPort;
@@ -27,10 +29,10 @@ class RemovePostService implements RemovePostUseCase {
 
         Member member = getMemberUseCase.getMember(command.memberId());
         Post post = loadPostPort.findById(command.postId())
-                .orElseThrow(() -> new IllegalArgumentException("Post not found with ID: " + command.postId()));
+                .orElseThrow(() -> new PostNotFoundException(command.postId()));
 
         if (!post.getMember().equals(member)) {
-            throw new IllegalArgumentException("Member does not have permission to delete this post.");
+            throw new PostOwnershipException();
         }
 
         deletePostPort.deleteById(command.postId());

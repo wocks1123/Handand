@@ -2,6 +2,7 @@ package org.example.handanddomain.domain.member.application.service;
 
 import org.example.handanddomain.domain.member.application.port.in.dto.ModifyMemberCommand;
 import org.example.handanddomain.domain.member.application.port.in.dto.RegisterMemberCommand;
+import org.example.handanddomain.domain.member.application.exception.MemberNotFoundException;
 import org.example.handanddomain.domain.member.domain.Member;
 import org.example.handanddomain.domain.member.infra.MemberFakeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -106,13 +107,10 @@ class MemberServiceTest {
         // given
         var nonExistentMemberId = 999L;
 
-        // when
-        var exception = assertThrows(IllegalArgumentException.class, () -> {
+        // when & then
+        assertThrows(MemberNotFoundException.class, () -> {
             memberService.getMember(nonExistentMemberId);
         });
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo("회원을 찾을 수 없습니다. id: " + nonExistentMemberId);
     }
 
     @Test
@@ -139,13 +137,10 @@ class MemberServiceTest {
         // given
         var nonExistentName = "NON_EXISTENT_NAME";
 
-        // when
-        var exception = assertThrows(IllegalArgumentException.class, () -> {
+        // when & then
+        assertThrows(MemberNotFoundException.class, () -> {
             memberService.getMemberByName(nonExistentName);
         });
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo("회원을 찾을 수 없습니다. name:" + nonExistentName);
     }
 
     @Test
@@ -195,13 +190,10 @@ class MemberServiceTest {
         var nonExistentMemberId = 999L;
         var modifyCommand = new ModifyMemberCommand(nonExistentMemberId, "image://MODIFIED_TEST_IMAGE_URL");
 
-        // when
-        var exception = assertThrows(IllegalArgumentException.class, () -> {
+        // when & then
+        assertThrows(MemberNotFoundException.class, () -> {
             memberService.modifyMember(modifyCommand);
         });
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo("회원을 찾을 수 없습니다. id: " + nonExistentMemberId);
     }
 
 }

@@ -1,6 +1,7 @@
 package org.example.handanddomain.domain.member.application.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.handanddomain.domain.member.application.exception.MemberNotFoundException;
 import org.example.handanddomain.domain.member.application.port.in.GetMemberUseCase;
 import org.example.handanddomain.domain.member.application.port.in.ModifyMemberUseCase;
 import org.example.handanddomain.domain.member.application.port.in.RegisterMemberUseCase;
@@ -31,19 +32,19 @@ class MemberService implements RegisterMemberUseCase, ModifyMemberUseCase, GetMe
     @Override
     public @NotNull Member getMember(@NotNull Long memberId) {
         return loadMemberPort.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. id: " + memberId));
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
     }
 
     @Override
     public @NotNull Member getMemberByName(@NotNull String name) {
         return loadMemberPort.findByName(name)
-                .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. name:" + name));
+                .orElseThrow(() -> new MemberNotFoundException(name));
     }
 
     @Override
     public void modifyMember(@NotNull ModifyMemberCommand command) {
         Member member = loadMemberPort.findById(command.memberId())
-                .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. id: " + command.memberId()));
+                .orElseThrow(() -> new MemberNotFoundException(command.memberId()));
 
         member.modifyProfileImageUrl(command.profileImageUrl());
 

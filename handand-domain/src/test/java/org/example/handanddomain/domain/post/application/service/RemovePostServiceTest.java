@@ -3,6 +3,8 @@ package org.example.handanddomain.domain.post.application.service;
 import org.example.handanddomain.domain.member.application.port.in.GetMemberUseCase;
 import org.example.handanddomain.domain.member.application.port.in.MemberUseCaseFactory;
 import org.example.handanddomain.domain.member.domain.Member;
+import org.example.handanddomain.domain.post.application.exception.PostNotFoundException;
+import org.example.handanddomain.domain.post.application.exception.PostOwnershipException;
 import org.example.handanddomain.domain.post.application.port.in.dto.RemovePostCommand;
 import org.example.handanddomain.domain.post.domain.Post;
 import org.example.handanddomain.domain.post.domain.PostStatus;
@@ -73,7 +75,7 @@ class RemovePostServiceTest {
         );
 
         // when & then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(PostNotFoundException.class, () -> {
             removePostService.removePost(command);
         });
     }
@@ -88,7 +90,7 @@ class RemovePostServiceTest {
         );
 
         // when & then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(PostOwnershipException.class, () -> {
             removePostService.removePost(command);
         });
     }
