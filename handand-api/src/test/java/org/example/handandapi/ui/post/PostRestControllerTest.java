@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.handandapi.common.GlobalExceptionHandler;
+import org.example.handandapi.config.TestSecurityConfig;
 import org.example.handandapi.ui.post.dto.ModifyPostRequest;
 import org.example.handandapi.ui.post.dto.RegisterPostRequest;
 import org.example.handandapi.ui.post.dto.RemovePostRequest;
@@ -22,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -35,7 +37,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
-@ContextConfiguration(classes = {PostRestController.class, GlobalExceptionHandler.class})
+@ContextConfiguration(classes = {PostRestController.class, GlobalExceptionHandler.class, TestSecurityConfig.class})
 @DisplayName("게시물 API 테스트")
 class PostRestControllerTest {
 
@@ -57,6 +59,7 @@ class PostRestControllerTest {
 
     @Nested
     @DisplayName("게시물 등록 API 테스트")
+    @WithMockUser
     class RegisterPostTest {
 
         @Test
@@ -85,13 +88,14 @@ class PostRestControllerTest {
 
     @Nested
     @DisplayName("게시물 수정 API 테스트")
+    @WithMockUser
     class ModifyPostTest {
 
         @Test
         @DisplayName("게시물 수정에 성공하면 200 코드를 반환한다.")
         void test01() throws Exception {
             // given
-            Long postId = 1L; // 예시 게시물 ID
+            long postId = 1L; // 예시 게시물 ID
             ModifyPostRequest request = new ModifyPostRequest(1L, "Updated Title", "Updated Content");
             willDoNothing()
                     .given(modifyPostUseCase)
@@ -148,6 +152,7 @@ class PostRestControllerTest {
 
     @Nested
     @DisplayName("게시물 조회 API 테스트")
+    @WithMockUser
     class GetPostTest {
 
         @Test
@@ -197,6 +202,7 @@ class PostRestControllerTest {
 
     @Nested
     @DisplayName("게시물 삭제 API 테스트")
+    @WithMockUser
     class RemovePostTest {
 
         @Test

@@ -2,26 +2,32 @@ package org.example.handanddomain.domain.auth.application.service;
 
 import org.example.handanddomain.domain.auth.application.exception.LoginFailException;
 import org.example.handanddomain.domain.auth.application.port.in.dto.LoginMemberAuthCommand;
+import org.example.handanddomain.domain.auth.application.port.in.dto.LoginResult;
+import org.example.handanddomain.domain.auth.application.port.out.TokenPort;
 import org.example.handanddomain.domain.auth.domain.MemberAuth;
 import org.example.handanddomain.domain.auth.domain.MemberAuthDomainService;
 import org.example.handanddomain.domain.auth.infra.FakeMemberAuthRepository;
 import org.example.handanddomain.domain.auth.infra.FakePasswordEncoder;
+import org.example.handanddomain.domain.auth.infra.FakeTokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class LoginMemberAuthServiceTest {
 
     private LoginMemberAuthService loginMemberAuthService;
+    private TokenPort tokenPort;
 
     @BeforeEach
     void setup() {
         FakeMemberAuthRepository fakeMemberAuthRepository = new FakeMemberAuthRepository();
         MemberAuthDomainService memberAuthDomainService = new MemberAuthDomainService(new FakePasswordEncoder());
-        loginMemberAuthService = new LoginMemberAuthService(fakeMemberAuthRepository, memberAuthDomainService);
+        tokenPort = new FakeTokenService();
+        loginMemberAuthService = new LoginMemberAuthService(fakeMemberAuthRepository, memberAuthDomainService, tokenPort);
 
         // 테스트 회원 등록
         MemberAuth givenMember = memberAuthDomainService.createMemberAuth(1L, "TEST_MEMBER", "TEST_PASSWORD");
@@ -32,12 +38,19 @@ class LoginMemberAuthServiceTest {
     @DisplayName("올바른 계정과 비밀번호로 로그인에 성공한다.")
     void test01() {
         // given
-        String username = "TEST_MEMBER";
-        String password = "TEST_PASSWORD";
+        LoginMemberAuthCommand command = new LoginMemberAuthCommand("TEST_MEMBER", "TEST_PASSWORD");
 
-        // when & then
-        assertDoesNotThrow(() ->
-                loginMemberAuthService.login(new LoginMemberAuthCommand(username, password))
+        // when
+        LoginResult result = loginMemberAuthService.login(command);
+
+        // then
+        assertThat(result).isNotNull();
+        assertAll(
+                () -> assertThat(result.memberId()).isEqualTo(1L),
+                () -> assertThat(tokenPort.isValidateToken(result.accessToken())).isTrue(),
+                () -> assertThat(tokenPort.isValidateToken(result.refreshToken())).isTrue(),
+                () -> assertThat(tokenPort.extractUsername(result.accessToken())).isEqualTo(command.username()),
+                () -> assertThat(result.memberId()).isEqualTo(1L)
         );
     }
 
