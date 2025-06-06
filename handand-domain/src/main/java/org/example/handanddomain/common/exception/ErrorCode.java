@@ -9,6 +9,7 @@ public enum ErrorCode {
     POST_NOT_FOUND("POST_001", "게시물을 찾을 수 없습니다.", 404),
     POST_ACCESS_DENIED("POST_002", "해당 게시물의 권한이 없습니다.", 403),
 
+    LOGIN_FAIL("LOGIN_000", "로그인 실패", 400),
 
     INTERNAL_SERVER_ERROR("SYS_001", "서버 내부 오류", 500);
 
