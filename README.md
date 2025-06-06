@@ -1,7 +1,7 @@
 # Handand - SNS 플랫폼
 
 [![Java CI with Gradle](https://github.com/wocks1123/community-practice/actions/workflows/main.yml/badge.svg)](https://github.com/wocks1123/community-practice/actions/workflows/main.yml)
-[![codecov](https://codecov.io/gh/wocks1123/community-practice/graph/badge.svg?token=ISKZQHRVRU)](https://codecov.io/gh/wocks1123/community-practice)
+[![codecov](https://codecov.io/gh/wocks1123/Handand/graph/badge.svg?token=ISKZQHRVRU)](https://codecov.io/gh/wocks1123/Handand)
 
 ## 👋 소개
 
@@ -57,7 +57,7 @@
 - **테스트 커버리지** : jacoco, codecov 를 활용한 코드 커버리지 측정 및 품질 관리
 
 <div align="center">
-  <img src="https://codecov.io/gh/wocks1123/community-practice/graphs/tree.svg?token=ISKZQHRVRU" alt="codecov"/>
+  <img src="https://codecov.io/gh/wocks1123/Handand/graphs/tree.svg?token=ISKZQHRVRU" alt="codecov"/>
   <br/>
   <em>테스트 커버리지</em>
 </div>
