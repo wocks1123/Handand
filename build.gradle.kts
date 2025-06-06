@@ -60,27 +60,6 @@ project(":jacoco-support") {
             html.required.set(true)
         }
 
-
-//        classDirectories.map {
-//            fileTree(it).matching {
-//                exclude(
-//                    "**/com/example/jacoco/support/**",
-//                    "**/com/example/jacoco/support/**",
-//                    "**/com/example/jacoco/support/**",
-//                    "**/com/example/jacoco/support/**"
-//                )
-//            }
-//        }
-
-//        getClassDirectories().setFrom(
-//            subprojects.map {
-//                fileTree(it.sourceSets.main.get().output).matching {
-//                    exclude(
-//                        "org/example/handanddomain/domain/post/infra"
-//                    )
-//                }
-//            }
-//        )
         classDirectories.setFrom(
             files(
                 listOf(
@@ -93,7 +72,8 @@ project(":jacoco-support") {
                             "**/config/**",
                             "**/output/**",
                             "**/infra/**",
-                            "**/*Application.*"
+                            "**/*Application.*",
+                            "**/*DomainConfiguration.*"
                         )
                     }
                 }
