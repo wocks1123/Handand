@@ -2,8 +2,10 @@ package org.example.handandapi.ui.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.example.handandapi.ui.auth.dto.LoginRequest;
+import org.example.handandapi.ui.auth.dto.RefreshTokenRequest;
 import org.example.handandapi.ui.auth.dto.RegisterMemberWithAuthRequest;
 import org.example.handanddomain.domain.auth.application.port.in.LoginMemberAuthUserCase;
+import org.example.handanddomain.domain.auth.application.port.in.RefreshTokenUseCase;
 import org.example.handanddomain.domain.auth.application.port.in.RegisterMemberWithAuthUseCase;
 import org.example.handanddomain.domain.auth.application.port.in.dto.LoginMemberAuthCommand;
 import org.example.handanddomain.domain.auth.application.port.in.dto.LoginResult;
@@ -20,7 +22,7 @@ class AuthRestController {
 
     private final RegisterMemberWithAuthUseCase registerMemberWithAuthUseCase;
     private final LoginMemberAuthUserCase loginMemberAuthUserCase;
-
+    private final RefreshTokenUseCase refreshTokenUseCase;
 
     @PostMapping("/register")
     Long registerMemberWithAuth(@RequestBody RegisterMemberWithAuthRequest request) {
@@ -42,6 +44,11 @@ class AuthRestController {
                         request.password()
                 )
         );
+    }
+
+    @PostMapping("/refresh")
+    LoginResult refreshToken(@RequestBody RefreshTokenRequest request) {
+        return refreshTokenUseCase.refreshToken(request.refreshToken());
     }
 
 }
